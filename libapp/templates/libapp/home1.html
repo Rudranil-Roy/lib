@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="{% static 'libapp/output.css' %}" rel="stylesheet">
+</head>
+<body>
+    
+    <nav class="flex bg-blue-500 py-3 w-full justify-between" >
+
+        <h1 class="m-2 font-bold text-4xl text-gray-200 justify-start">Library Management</h1>
+        <div class="flex m-1 items-center justify-end">
+
+            <form action="" method="get" class="flex">
+                <input type="text" placeholder="Search Books"
+                class="mx-1 px-1.5 border rounded-lg bg-slate-100 font-semibold">
+
+                <button class="mx-1 py-1.5 px-1.5  rounded-lg bg-red-600 font-semibold text-white hover:bg-red-700 " >Search</button>
+            </form>
+
+            <a href="addreader/"
+            class="mx-1 py-1 px-1.5 border rounded-lg bg-slate-100 font-semibold text-blue-500 hover:bg-slate-200 hover:underline">Add Reader</a>
+
+            <!-- <a href="/home.html" 
+            class="mx-1 py-1 px-1.5 border rounded-lg bg-slate-100 font-semibold text-blue-500 hover:bg-slate-200 hover:underline">
+            Admin Login</a> -->
+        </div>
+
+
+    </nav>
+
+    <main class="flex flex-wrap">
+
+        {% for book in Books %}
+        <!-- <p>{{book.book_name}} by {{book.author_name}}</p> -->
+        <div class="m-3 flex flex-col w-[225px] h-[400px] border hover:bg-slate-100 border-b-yellow-800">
+            <div class="fixed border w-[50px] h-[50px] bg-green-300">
+               <p class="flex justify-center mt-[10px]">Qt: {{book.book_count}}</p> 
+            </div>
+            <img class="m-5 w-[180px] h[280] border]" src="{% static 'libapp/images.png' %}" alt="">
+            <p class="text-2xl px-2">{{book.book_name}}</p>
+            <p class="p-2">By {{book.author_name}}</p>
+        </div>
+        {% endfor %}
+
+        
+
+        <div class="m-3 flex flex-col w-[225px] h-[400px] border">
+            <div class="fixed border w-[50px] h-[50px] bg-green-300">
+               <p class="flex justify-center mt-[10px]">Qt: 5</p> 
+            </div>
+            <img class="m-5 w-[180px] h[280] border]" src="{% static 'libapp/images.png' %}" alt="">
+            <p class="text-2xl px-2">Let Us C++</p>
+            <p class="p-2">By Rudranil</p>
+        </div>
+    </main>
+
+</body>
+</html>
