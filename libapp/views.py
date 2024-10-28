@@ -1,5 +1,7 @@
 from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from .models import Book, Reader
+import datetime
 # Create your views here.
 
 def home(request):
@@ -22,3 +24,30 @@ def addreader(request):
         return redirect('addreader')
 
     return render(request,'libapp/login.html')
+
+def reader(request,pk):
+
+    if request.method=='POST':
+        isbn=int(request.POST.get('no'))
+        print(isbn)
+        book=Book.objects.get(isbn_number=isbn)
+        reader=Reader.objects.get(id=pk)
+
+        if(book.book_count>0):
+            reader.book_borrowed=book
+            book.book_count-=1
+            date=datetime.date.today()
+            reader.date_borrowed=date
+            returndate= date+ datetime.timedelta(days=7)
+            reader.return_date=returndate
+            book.save()
+            reader.save()
+            return redirect('reader',"1")
+        else:
+            return HttpResponse('Book Out of Stock')
+
+
+
+    return render(request,'libapp/reader.html',context={
+        'Readers':Reader.objects.all()
+    })

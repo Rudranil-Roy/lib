@@ -22,6 +22,7 @@ class Reader(models.Model):
     active=models.BooleanField(default=True)
     book_borrowed=models.ForeignKey(Book,on_delete=models.SET_NULL,null=True,blank=True)
     date_borrowed=models.DateField(null=True,blank=True)
+    return_date=models.DateField(null=True,blank=True)
     created_at=models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

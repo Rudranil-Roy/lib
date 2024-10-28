@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reader</title>
+    <link rel="stylesheet" href="{% static 'libapp/output.css' %}">
+</head>
+
+<body>
+
+    <nav class="flex bg-blue-500 py-3 w-full justify-between">
+
+        <h1 class="m-2 font-bold text-4xl text-gray-200 justify-start">Library Management</h1>
+
+    </nav>
+
+    <div class="flex border-black">
+
+        <div class="flex flex-col justify-center border-black m-6 w-full">
+            <h2 class="text-center text-4xl mb-6">Reader List</h2>
+
+            <table class="border border-black text-2xl">
+
+                <tr class="text-center ">
+                    <th class="p-5 border border-black">Sl No</th>
+                    <th class="p-5 border border-black">Reader Id</th>
+                    <th class="p-5 border border-black">Name</th>
+                    <th class="p-5 border border-black">Book Borrowed</th>
+                    <th class="p-5 border border-black">Borrowed Date</th>
+                    <th class="p-5 border border-black">Return Date</th>
+                    <th class="p-5 border border-black">Action</th>
+
+                </tr>
+
+                {% for reader in Readers %}
+                <tr class="text-center">
+                    <td class="p-5 border border-black">Sl No</td>
+                    <td class="p-5 border border-black">{{reader.reader_id}}</td>
+                    <td class="p-5 border border-black">{{reader.reader_name}}</td>
+                    <td class="p-5 border border-black">
+                        {% if reader.book_borrowed == NULL %}
+                        <form action="{% url 'reader' reader.id %}" method="post">
+                            {% csrf_token %}
+                            <input class="border border-b-black rounded-lg placeholder:text-center text-center"
+                                type="text" placeholder="ISBN number" name="no">
+                        </form>
+                        {% else %}
+                        {{reader.book_borrowed}}
+                        {% endif %}
+                    </td>
+                    <td class="p-5 border border-black">{{reader.date_borrowed}}</td>
+                    <td class="p-5 border border-black">{{reader.return_date}}</td>
+                    <td class="p-5 border border-black">
+                        <div>
+                            <!-- <button type="submit"
+                                class="mx-1 py-1.5 px-1.5  rounded-lg bg-green-600 font-semibold text-white hover:bg-green-700 ">Lend Book</button> -->
+                            {% if reader.book_borrowed != NULL %}
+                            <a class="mx-1 py-1.5 px-1.5  rounded-lg bg-red-600 font-semibold text-white hover:bg-red-700 "
+                                href="{% url 'reader' reader.id %}">Return Book</a>
+                            {% endif %}
+
+                            <a class="mx-1 py-1.5 px-1.5  rounded-lg bg-red-600 font-semibold text-white hover:bg-red-700 "
+                                href="{% url 'reader' reader.id %}">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+
+        <!-- <div class="flex flex-col justify-center border-black ">
+            <div class="flex justify-evenly">
+                <h2 class="text-center text-4xl mb-6">Book Details</h2>
+                <form action="" method="get" class="flex justify-end">
+                    <input type="text" placeholder="Search Books"
+                    class="mx-1 px-1.5 border rounded-lg bg-slate-100 font-semibold">
+    
+                    <button class="mx-1 py-1.5 px-1.5  rounded-lg bg-red-600 font-semibold text-white hover:bg-red-700 " >Search</button>
+                </form>
+            </div>
+
+        </div> -->
+    </div>
+
+
+</body>
+
+</html>
