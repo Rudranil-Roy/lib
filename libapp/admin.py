@@ -4,4 +4,4 @@ from .models import *
 
 admin.site.register(Reader)
 admin.site.register(Book)
-admin.site.register(Librarian)
+# admin.site.register(Librarian)

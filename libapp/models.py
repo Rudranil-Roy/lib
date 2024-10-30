@@ -29,12 +29,12 @@ class Reader(models.Model):
         return self.reader_name
 
 
-class Librarian(models.Model):
-    lib_name=models.CharField(max_length=200)
-    email=models.EmailField(max_length=200)
-    contact_no=models.IntegerField()
-    address=models.TextField()
+# class Librarian(models.Model):
+#     lib_name=models.CharField(max_length=200)
+#     email=models.EmailField(max_length=200)
+#     contact_no=models.IntegerField()
+#     address=models.TextField()
 
-    def __str__(self):
-        return self.lib_name
+#     def __str__(self):
+#         return self.lib_name
 

@@ -1,12 +1,22 @@
 from django.shortcuts import render,redirect
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse
+from django.db.models import Q
 from .models import Book, Reader
 import datetime
 # Create your views here.
 
 def home(request):
+    q=request.GET.get('q') if request.GET.get('q')!=None else ''
+    books=Book.objects.filter(
+        Q(book_name__icontains=q) |
+        Q(author_name__icontains=q) |
+        Q(isbn_number__icontains=q)
+    )
     return render(request,'libapp/home1.html',context={
-        'Books':Book.objects.all()
+        'Books':books
     })
 
 def addreader(request):
@@ -23,7 +33,7 @@ def addreader(request):
 
         return redirect('addreader')
 
-    return render(request,'libapp/login.html')
+    return render(request,'libapp/addreader.html')
 
 def reader(request,pk):
 
@@ -51,6 +61,20 @@ def reader(request,pk):
     return render(request,'libapp/reader.html',context={
         'Readers':Reader.objects.all()
     })
+
+def addbook(request):
+    if request.method=='POST':
+        book_name=request.POST.get('name')
+        isbn=int(request.POST.get('no'))
+        author_name=request.POST.get('author')
+        count=int(request.POST.get('count'))
+        print(book_name,isbn,author_name,count)
+
+        book=Book(book_name=book_name,author_name=author_name,isbn_number=isbn,book_count=count)
+        book.save()
+        return redirect('addbook')
+
+    return render(request,'libapp/addbook.html')
 
 def returnbook(request,pk):
     
@@ -83,4 +107,25 @@ def updatebook(request,pk):
 def deletebook(request,pk):
     book=Book.objects.filter(id=pk)
     book.delete()
+    return redirect('home')
+
+def loginp(request):
+
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    if request.method=='POST':
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        print(username,password)
+        user=authenticate(request,username=username,password=password)
+
+        if user is not None:
+            login(request,user)
+            return redirect('home')
+        
+    return render(request,'libapp/login.html')
+
+def logoutp(request):
+    logout(request)
     return redirect('home')

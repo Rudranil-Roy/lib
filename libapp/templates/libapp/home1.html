@@ -13,15 +13,19 @@
     
     <nav class="flex bg-blue-500 py-3 w-full justify-between" >
 
-        <h1 class="m-2 font-bold text-4xl text-gray-200 justify-start">Library Management</h1>
+        <a href="{% url 'home' %}" class="m-2 font-bold text-4xl text-gray-200 justify-start">Library Management</a>
         <div class="flex m-1 items-center justify-end">
 
-            <form action="" method="get" class="flex">
+            <form action="{% url 'home' %}" method="get" class="flex">
                 <input type="text" placeholder="Search Books"
-                class="mx-1 px-1.5 border rounded-lg bg-slate-100 font-semibold">
+                class="mx-1 px-1.5 border rounded-lg bg-slate-100 font-semibold" name="q">
 
-                <button class="mx-1 py-1.5 px-1.5  rounded-lg bg-red-600 font-semibold text-white hover:bg-red-700 " >Search</button>
+                <!-- <button class="mx-1 py-1.5 px-1.5  rounded-lg bg-red-600 font-semibold text-white hover:bg-red-700 " >Search</button> -->
             </form>
+
+            {% if request.user.is_authenticated %}
+            <a href="addbook/"
+            class="mx-1 py-1 px-1.5 border rounded-lg bg-slate-100 font-semibold text-blue-500 hover:bg-slate-200 hover:underline">Add Book</a>
 
             <a href="addreader/"
             class="mx-1 py-1 px-1.5 border rounded-lg bg-slate-100 font-semibold text-blue-500 hover:bg-slate-200 hover:underline">Add Reader</a>
@@ -29,6 +33,15 @@
             <a href="{% url 'reader' '1' %}" 
             class="mx-1 py-1 px-1.5 border rounded-lg bg-slate-100 font-semibold text-blue-500 hover:bg-slate-200 hover:underline">
             Manage Readers</a>
+
+            <a href="{% url 'logout' %}" 
+            class="mx-1 py-1 px-1.5 border rounded-lg bg-slate-100 font-semibold text-blue-500 hover:bg-slate-200 hover:underline">
+            Logout</a>
+            {% else %}
+            <a href="{% url 'login' %}" 
+            class="mx-1 py-1 px-1.5 border rounded-lg bg-slate-100 font-semibold text-blue-500 hover:bg-slate-200 hover:underline">
+            Login</a>
+            {% endif %}
         </div>
 
 
@@ -49,6 +62,7 @@
                 <p class="p-2">By {{book.author_name}}</p>
             </div>
 
+            {% if request.user.is_authenticated %}
             <div class="mx-3 flex items-center justify-between">
                 <form action="{% url 'updatebook' book.id %}" method="post"  class="flex items-center">
                     {% csrf_token %}
@@ -59,6 +73,7 @@
                 </form>
                 <a href="{% url 'deletebook' book.id %}" class="mx-1 py-1.5 px-1.5  rounded-lg bg-red-600 font-semibold text-white hover:bg-red-700 ">Delete</a>
             </div>
+            {% endif %}
         </div>
         
         {% endfor %}

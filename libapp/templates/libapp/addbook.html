@@ -23,20 +23,28 @@
             <form class="" action="" method="post">
                 {% csrf_token %}
                 <!-- <div class=""></div> -->
-                 <p class="text-center text-4xl mb-4">Login</p>
+                 <p class="text-center text-4xl mb-4">Add Book</p>
                  
                 <table class="flex">
-                    <tr>
-                        <td class="p-5"><label class="text-2xl" for="">Username:</label></td>
-                        <td><input class=" p-1 border rounded-lg" name="username" type="text"></td>
+                    <tr class="p-10">
+                        <td class="p-5"><label class="text-2xl" for="">Book Title:</label></td>
+                        <td><input class=" p-1 border rounded-lg" name="name" type="text"></td>
                     </tr>
-                    <tr>
-                        <td class="p-5"><label class="text-2xl" for="">Password:</label></td>
-                        <td><input class=" p-1 border rounded-lg" name="password" type="password"></td>
+                    <tr class="p-10">
+                        <td class="p-5"><label class="text-2xl" for="">Author Name:</label></td>
+                        <td><input class=" p-1 border rounded-lg" name="author" type="text"></td>
+                    </tr>
+                    <tr class="p-10">
+                        <td class="p-5"><label class="text-2xl" for="">ISBN Number:</label></td>
+                        <td><input class=" p-1 border rounded-lg" name="no" type="text"></td>
+                    </tr>
+                    <tr class="p-10">
+                        <td class="p-5"><label class="text-2xl" for="">Book Stock:</label></td>
+                        <td><input class=" p-1 border rounded-lg" name="count" type="text"></td>
                     </tr>
                     <tr>
                         <td class="p-5" colspan="2"><button class="w-full text-center text-2xl bg-green-400 rounded-lg py-2 ml-2 hover:bg-green-500"
-                            type="submit" >Submit</button></td>
+                            type="submit" >Add Book</button></td>
                     </tr>
                 </table>
                 
