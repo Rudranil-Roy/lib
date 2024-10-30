@@ -38,14 +38,29 @@
 
         {% for book in Books %}
         <!-- <p>{{book.book_name}} by {{book.author_name}}</p> -->
-        <div class="m-3 flex flex-col w-[225px] h-[400px] border hover:bg-slate-100 border-b-yellow-800">
-            <div class="fixed border w-[50px] h-[50px] bg-green-300">
-               <p class="flex justify-center mt-[10px]">Qt: {{book.book_count}}</p> 
+        <div class="flex flex-col">
+
+            <div class="m-3 flex flex-col w-[225px] h-[400px] border hover:bg-slate-100 border-b-yellow-800">
+                <div class="fixed border w-[50px] h-[50px] bg-green-300">
+                   <p class="flex justify-center mt-[10px]">Qt: {{book.book_count}}</p> 
+                </div>
+                <img class="m-5 w-[180px] h[280] border]" src="{% static 'libapp/images.png' %}" alt="">
+                <p class="text-2xl px-2">{{book.book_name}}</p>
+                <p class="p-2">By {{book.author_name}}</p>
             </div>
-            <img class="m-5 w-[180px] h[280] border]" src="{% static 'libapp/images.png' %}" alt="">
-            <p class="text-2xl px-2">{{book.book_name}}</p>
-            <p class="p-2">By {{book.author_name}}</p>
+
+            <div class="mx-3 flex items-center justify-between">
+                <form action="{% url 'updatebook' book.id %}" method="post"  class="flex items-center">
+                    {% csrf_token %}
+                    <input name="no" type="number" class="w-[90px] border rounded-lg bg-slate-100 font-semibold">
+
+                    <button type="submit" class="ml-1 py-1.5 px-1.5 rounded-lg bg-green-600 font-semibold text-white hover:bg-green-700 ">Update</button>
+
+                </form>
+                <a href="{% url 'deletebook' book.id %}" class="mx-1 py-1.5 px-1.5  rounded-lg bg-red-600 font-semibold text-white hover:bg-red-700 ">Delete</a>
+            </div>
         </div>
+        
         {% endfor %}
 
         

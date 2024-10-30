@@ -73,3 +73,14 @@ def deleteuser(request,pk):
     reader.delete()
 
     return redirect('reader','1')
+
+def updatebook(request,pk):
+    book=Book.objects.get(id=pk)
+    book.book_count+=int(request.POST.get('no'))
+    book.save()
+    return redirect('home')
+
+def deletebook(request,pk):
+    book=Book.objects.filter(id=pk)
+    book.delete()
+    return redirect('home')
