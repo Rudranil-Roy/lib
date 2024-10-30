@@ -19,6 +19,7 @@ def home(request):
         'Books':books
     })
 
+@login_required(login_url='login')
 def addreader(request):
 
     if request.method=='POST':
@@ -35,6 +36,7 @@ def addreader(request):
 
     return render(request,'libapp/addreader.html')
 
+@login_required(login_url='login')
 def reader(request,pk):
 
     if request.method=='POST':
@@ -62,6 +64,7 @@ def reader(request,pk):
         'Readers':Reader.objects.all()
     })
 
+@login_required(login_url='login')
 def addbook(request):
     if request.method=='POST':
         book_name=request.POST.get('name')
@@ -76,6 +79,7 @@ def addbook(request):
 
     return render(request,'libapp/addbook.html')
 
+@login_required(login_url='login')
 def returnbook(request,pk):
     
     reader=Reader.objects.get(id=pk)
@@ -87,6 +91,7 @@ def returnbook(request,pk):
 
     return redirect('reader','1')
 
+@login_required(login_url='login')
 def deleteuser(request,pk):
     
     reader=Reader.objects.get(id=pk)
@@ -98,12 +103,14 @@ def deleteuser(request,pk):
 
     return redirect('reader','1')
 
+@login_required(login_url='login')
 def updatebook(request,pk):
     book=Book.objects.get(id=pk)
     book.book_count+=int(request.POST.get('no'))
     book.save()
     return redirect('home')
 
+@login_required(login_url='login')
 def deletebook(request,pk):
     book=Book.objects.filter(id=pk)
     book.delete()
@@ -126,6 +133,7 @@ def loginp(request):
         
     return render(request,'libapp/login.html')
 
+@login_required(login_url='login')
 def logoutp(request):
     logout(request)
     return redirect('home')
