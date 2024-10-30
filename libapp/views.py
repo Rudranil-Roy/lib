@@ -51,3 +51,25 @@ def reader(request,pk):
     return render(request,'libapp/reader.html',context={
         'Readers':Reader.objects.all()
     })
+
+def returnbook(request,pk):
+    
+    reader=Reader.objects.get(id=pk)
+    book=reader.book_borrowed
+    reader.book_borrowed=None
+    book.book_count+=1
+    book.save()
+    reader.save()
+
+    return redirect('reader','1')
+
+def deleteuser(request,pk):
+    
+    reader=Reader.objects.get(id=pk)
+    if reader.book_borrowed != None:
+        book=reader.book_borrowed
+        book.book_count+=1
+        book.save()
+    reader.delete()
+
+    return redirect('reader','1')
