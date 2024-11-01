@@ -19,4 +19,4 @@
     ```bash
     python manage.py tailwind start
 
-
+Note: username:admin password:django@123
