@@ -4,6 +4,7 @@ from django.db import models
 class Book(models.Model):
     book_name=models.CharField(max_length=200)
     author_name=models.CharField(max_length=200)
+    book_img=models.ImageField(upload_to='photos/',default='')
     isbn_number=models.IntegerField()
     book_count=models.IntegerField()
     created_at=models.DateTimeField(auto_now_add=True)

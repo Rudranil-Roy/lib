@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponse
+from .forms import *
 from django.db.models import Q
 from .models import Book, Reader
 import datetime
@@ -21,20 +22,25 @@ def home(request):
 
 @login_required(login_url='login')
 def addreader(request):
+    form=Readerform(request.POST)
+    # if request.method=='POST':
+    #     reader_id=request.POST.get('id')
+    #     reader_name=request.POST.get('name')
+    #     reader_email=request.POST.get('email')
+    #     reader_no=int(request.POST.get('no'))
+    #     reader_address=request.POST.get('address')
 
-    if request.method=='POST':
-        reader_id=request.POST.get('id')
-        reader_name=request.POST.get('name')
-        reader_email=request.POST.get('email')
-        reader_no=int(request.POST.get('no'))
-        reader_address=request.POST.get('address')
+    #     reader= Reader(reader_id=reader_id,reader_name=reader_name,email=reader_email,contact_no=reader_no,address=reader_address)
+    #     reader.save()
 
-        reader= Reader(reader_id=reader_id,reader_name=reader_name,email=reader_email,contact_no=reader_no,address=reader_address)
-        reader.save()
+    #     return redirect('addreader')
 
+    if form.is_valid():
+        form.save()
         return redirect('addreader')
 
-    return render(request,'libapp/addreader.html')
+    context={'form':form}
+    return render(request,'libapp/addreader.html',context)
 
 @login_required(login_url='login')
 def reader(request,pk):
@@ -66,18 +72,25 @@ def reader(request,pk):
 
 @login_required(login_url='login')
 def addbook(request):
-    if request.method=='POST':
-        book_name=request.POST.get('name')
-        isbn=int(request.POST.get('no'))
-        author_name=request.POST.get('author')
-        count=int(request.POST.get('count'))
-        print(book_name,isbn,author_name,count)
+    # if request.method=='POST':
+    #     book_name=request.POST.get('name')
+    #     book_img=request.FILES.get('image')
+    #     isbn=int(request.POST.get('no'))
+    #     author_name=request.POST.get('author')
+    #     count=int(request.POST.get('count'))
+    #     print(book_name,isbn,author_name,count)
+    #     print(request.FILES.get('image'))
+    #     book=Book(book_name=book_name,author_name=author_name,isbn_number=isbn,book_count=count,book_img=book_img)
+    #     # book.save()
+    #     return redirect('addbook')
+    form=Bookform(request.POST or None,request.FILES or None)
 
-        book=Book(book_name=book_name,author_name=author_name,isbn_number=isbn,book_count=count)
-        book.save()
+    if form.is_valid():
+        form.save()
         return redirect('addbook')
+    context={'form':form}
 
-    return render(request,'libapp/addbook.html')
+    return render(request,'libapp/addbook.html',context)
 
 @login_required(login_url='login')
 def returnbook(request,pk):
