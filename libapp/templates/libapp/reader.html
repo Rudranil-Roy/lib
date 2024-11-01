@@ -33,12 +33,17 @@
                     <th class="p-5 border border-black">Book Borrowed</th>
                     <th class="p-5 border border-black">Borrowed Date</th>
                     <th class="p-5 border border-black">Return Date</th>
+                    <th class="p-5 border border-black">Status</th>
                     <th class="p-5 border border-black">Action</th>
 
                 </tr>
 
                 {% for reader in Readers %}
-                <tr class="text-center">
+                <tr {% if reader.active %} 
+                    class="text-center bg-green-100"
+                    {% else %}
+                    class="text-center bg-red-100"
+                    {% endif %}>
                     <td class="p-5 border border-black">Sl No</td>
                     <td class="p-5 border border-black">{{reader.reader_id}}</td>
                     <td class="p-5 border border-black">{{reader.reader_name}}</td>
@@ -56,16 +61,25 @@
                     <td class="p-5 border border-black">{{reader.date_borrowed}}</td>
                     <td class="p-5 border border-black">{{reader.return_date}}</td>
                     <td class="p-5 border border-black">
+                        {% if reader.active %}
+                        <a class="mx-1 py-1.5 px-1.5  rounded-lg bg-green-600 font-semibold text-white hover:bg-green-700 "
+                            href="{% url 'togglestatus' reader.id %}">Active</a>
+                        {% else %}
+                        <a class="mx-1 py-1.5 px-1.5  rounded-lg bg-red-600 font-semibold text-white hover:bg-red-700 "
+                            href="{% url 'togglestatus' reader.id %}">Inactive</a>
+                        {% endif %}
+                    </td>
+                    <td class="p-5 border border-black">
                         <div>
                             <!-- <button type="submit"
-                                class="mx-1 py-1.5 px-1.5  rounded-lg bg-green-600 font-semibold text-white hover:bg-green-700 ">Lend Book</button> -->
+                            class="mx-1 py-1.5 px-1.5  rounded-lg bg-green-600 font-semibold text-white hover:bg-green-700 ">Lend Book</button> -->
                             {% if reader.book_borrowed != NULL %}
                             <a class="mx-1 py-1.5 px-1.5  rounded-lg bg-red-600 font-semibold text-white hover:bg-red-700 "
-                                href="{% url 'returnbook' reader.id %}">Return Book</a>
+                            href="{% url 'returnbook' reader.id %}">Return Book</a>
                             {% endif %}
-
+                            
                             <a class="mx-1 py-1.5 px-1.5  rounded-lg bg-red-600 font-semibold text-white hover:bg-red-700 "
-                                href="{% url 'deleteuser' reader.id %}">Delete</a>
+                            href="{% url 'deleteuser' reader.id %}">Delete</a>
                         </div>
                     </td>
                 </tr>

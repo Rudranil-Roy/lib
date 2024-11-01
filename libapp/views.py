@@ -47,7 +47,6 @@ def reader(request,pk):
 
     if request.method=='POST':
         isbn=int(request.POST.get('no'))
-        print(isbn)
         book=Book.objects.get(isbn_number=isbn)
         reader=Reader.objects.get(id=pk)
 
@@ -58,6 +57,7 @@ def reader(request,pk):
             reader.date_borrowed=date
             returndate= date+ datetime.timedelta(days=7)
             reader.return_date=returndate
+            reader.active=True
             book.save()
             reader.save()
             return redirect('reader',"1")
@@ -98,6 +98,8 @@ def returnbook(request,pk):
     reader=Reader.objects.get(id=pk)
     book=reader.book_borrowed
     reader.book_borrowed=None
+    reader.date_borrowed=None
+    reader.return_date=None
     book.book_count+=1
     book.save()
     reader.save()
@@ -150,3 +152,14 @@ def loginp(request):
 def logoutp(request):
     logout(request)
     return redirect('home')
+
+@login_required(login_url='login')
+def togglestatus(request,pk):
+    reader=Reader.objects.get(id=pk)
+    status=reader.active
+    reader.active=status ^ True
+    reader.save()
+    if (reader.book_borrowed  is not None):
+        returnbook(request,pk)
+
+    return redirect('reader','1')
